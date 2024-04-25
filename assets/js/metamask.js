@@ -1,9 +1,5 @@
-// var web3;
 
-// async function Connect(){
-// 	await window.web3.currentProvider.enable();
-// 	web3=new Web3(window.web3.currentProvider);
-// }
+
 
 var web3;
 
@@ -15,7 +11,6 @@ async function Connect() {
 			await window.ethereum.request({ method: 'eth_requestAccounts' });
 			web3 = new Web3(window.ethereum);
 
-			// Get wallet address
 			const accounts = await web3.eth.getAccounts();
 			const walletAddress = accounts[0];
 			
@@ -23,10 +18,9 @@ async function Connect() {
 			smallButton.innerText = smShortenAddress(walletAddress);
 			
 			const buttonText = document.getElementById('buttonText');
-			// alert(buttonText.innerText)
 			buttonText.innerText = shortenAddress(walletAddress);
 
-			// document.getElementById('connectButton').disabled = true;
+			document.getElementById('connectButton').disabled = true;
 
 		} catch (error) {
 			console.error("Error connecting to wallet:", error);
@@ -35,6 +29,30 @@ async function Connect() {
 		alert("MetaMask is not installed.");
 	}
 }
+
+//GET USER STAKES
+
+
+async function getUserStakes(address) {
+	const contract = new web3.eth.Contract(abi, contractAddress);
+	const stakes = await contract.methods.getUserStakes(address).call();
+	return stakes;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function shortenAddress(address) {
 	if (address.length <= 9) {
 		return address; // Address is already short
@@ -52,3 +70,7 @@ function smShortenAddress(address) {
 	const lastFive = address.slice(-3);
 	return `${firstFour}...${lastFive}`;
 }
+
+
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const abi = [];
