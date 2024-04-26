@@ -218,8 +218,11 @@ async function getUserTokenBalance(address) {
     const balanceEther = web3.utils.fromWei(balanceWei, "ether");
 
     // Update the HTML element with the formatted balance
-    const button = document.getElementById("userBalance");
-    button.innerHTML = balanceEther; // Display the balance with 'ETH' symbol
+    const button = document.getElementsByClassName("userBalance");
+    button.item(0).innerHTML = balanceEther;
+    button.item(1).innerHTML = balanceEther;
+    button.item(2).innerHTML = balanceEther;
+ // Display the balance with 'ETH' symbol
     BALANCE = balanceEther;
   } catch (error) {
     console.error("Error fetching user token balance:", error);
