@@ -1,5 +1,13 @@
 var web3;
 var walletAddress;
+var form__1 = document.getElementById("form__1");
+var form__2 = document.getElementById("form__2");
+var form__3 = document.getElementById("form__3");
+var BALANCE;
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Your function call here
+});
 
 function showNotification(message) {
   const notification = document.getElementById("notification");
@@ -11,15 +19,11 @@ function showNotification(message) {
   }, 6000);
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Your function call here
-});
+
 
 async function Connect() {
-  // Check if MetaMask is installed and enabled
   if (typeof window.ethereum !== "undefined") {
     try {
-      // Enable the provider (wallet) and get necessary data
       await window.ethereum.request({ method: "eth_requestAccounts" });
       web3 = new Web3(window.ethereum);
 
@@ -32,7 +36,7 @@ async function Connect() {
       const accounts = await web3.eth.getAccounts();
        walletAddress = accounts[0];
       await Total(walletAddress);
-      await getUserTokenBalance(walletAddress);
+     await getUserTokenBalance(walletAddress);
 
       const smallButton = document.getElementById("smallButtonText");
       smallButton.innerText = smShortenAddress(walletAddress);
@@ -49,8 +53,115 @@ async function Connect() {
   }
 }
 
-async function approveSpendingCap() {
+
+//HANDLE FORM SUBMISSION
+form__1.addEventListener("submit", async function (event) {
+  event.preventDefault();
+  if(!walletAddress){
+    showNotification("Please connect your wallet first");
+    return;
+  }
+  const stakingId = 1;
+  const amount = document.getElementById("amount__1").value;
+
+  if(amount < 100){
+    showNotification("Amount must be greater than 100");
+    return;
+  }
+  if(amount > BALANCE){
+    showNotification("Insufficient balance");
+    return;
+  }
+
+  try{
+    await approveSpendingCap(amount, stakingId);
+
+  }catch(error){
+    console.error("Error staking:", error);
+  }
+
+  
+});
+
+form__2.addEventListener("submit", async function (event) {
+  event.preventDefault();
+  if(!walletAddress){
+    showNotification("Please connect your wallet first");
+    return;
+  }
+  const stakingId = 2;
+  const amount = document.getElementById("amount__2").value;
+
+  if(amount < 10000){
+    showNotification("Amount must be greater than 100");
+    return;
+  }
+  if(amount > BALANCE){
+    showNotification("Insufficient balance");
+    return;
+  }
+
+  try{
+    await approveSpendingCap(amount, stakingId);
+
+  }catch(error){
+    console.error("Error staking:", error);
+  }
+
+  
+});
+
+form__3.addEventListener("submit", async function (event) {
+  event.preventDefault();
+  if(!walletAddress){
+    showNotification("Please connect your wallet first");
+    return;
+  }
+  const stakingId = 3;
+  const amount = document.getElementById("amount__3").value;
+
+  if(amount < 100){
+    showNotification("Amount must be greater than 100");
+    return;
+  }
+  if(amount > BALANCE){
+    showNotification("Insufficient balance");
+    return;
+  }
+
+  try{
+    await approveSpendingCap(amount, stakingId);
+
+  }catch(error){
+    console.error("Error staking:", error);
+  }
+
+  
+});
+
+
+
+async function approveSpendingCap(amount, stakingId) {
   if(walletAddress){
+   try{
+    const TokenContract = new web3.eth.Contract(tokenAbi, tokenContract);
+    const amountInWei = web3.utils.toWei(amount);
+    const approval = await TokenContract.methods
+      .approve(contractAddress, amountInWei)
+      .send({ from: walletAddress });
+    // approval.wait();
+    showNotification("Spending cap approved successfully");
+
+    const stakingContract = new web3.eth.Contract(abi, contractAddress);
+    // const stakingId = 1;
+    await stakingContract.methods.stake(stakingId, amountInWei).send({ from: walletAddress });
+
+    showNotification("Staked successfully");
+   }catch(err){
+      console.error("Error approving spending cap:", err);
+      showNotification("Error approving spending cap");
+   }
+
 
   }else{
     showNotification("Please connect your wallet first");
@@ -109,6 +220,7 @@ async function getUserTokenBalance(address) {
     // Update the HTML element with the formatted balance
     const button = document.getElementById("userBalance");
     button.innerHTML = balanceEther; // Display the balance with 'ETH' symbol
+    BALANCE = balanceEther;
   } catch (error) {
     console.error("Error fetching user token balance:", error);
   }
