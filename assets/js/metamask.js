@@ -4,6 +4,7 @@ var form__1 = document.getElementById("form__1");
 var form__2 = document.getElementById("form__2");
 var form__3 = document.getElementById("form__3");
 var BALANCE;
+let provider;
 
 document.addEventListener("DOMContentLoaded", function () {
   // Your function call here
@@ -19,24 +20,23 @@ function showNotification(message) {
   }, 6000);
 }
 
-
-
 async function Connect() {
   if (typeof window.ethereum !== "undefined") {
     try {
       await window.ethereum.request({ method: "eth_requestAccounts" });
-      web3 = new Web3(window.ethereum);
+      provider = new ethers.providers.Web3Provider(window.ethereum);
 
-      const networkId = await web3.eth.net.getId();
-      if (networkId !== 97) {
+      const network = await provider.getNetwork();
+      if (network.chainId !== 97) {
         showNotification("Please switch to bnb testnet.");
         return;
       }
 
-      const accounts = await web3.eth.getAccounts();
-       walletAddress = accounts[0];
+      const signer = provider.getSigner();
+      const walletAddress = await signer.getAddress();
+
       await Total(walletAddress);
-     await getUserTokenBalance(walletAddress);
+      await getUserTokenBalance(walletAddress);
 
       const smallButton = document.getElementById("smallButtonText");
       smallButton.innerText = smShortenAddress(walletAddress);
@@ -52,6 +52,41 @@ async function Connect() {
     alert("MetaMask is not installed.");
   }
 }
+
+
+
+
+// async function Connect() {
+//   if (typeof window.ethereum !== "undefined") {
+//     try {
+//       await window.ethereum.request({ method: "eth_requestAccounts" });
+//       web3 = new Web3(window.ethereum);
+
+//       const networkId = await web3.eth.net.getId();
+//       if (networkId !== 97) {
+//         showNotification("Please switch to bnb testnet.");
+//         return;
+//       }
+
+//       const accounts = await web3.eth.getAccounts();
+//        walletAddress = accounts[0];
+//       await Total(walletAddress);
+//      await getUserTokenBalance(walletAddress);
+
+//       const smallButton = document.getElementById("smallButtonText");
+//       smallButton.innerText = smShortenAddress(walletAddress);
+
+//       const buttonText = document.getElementById("buttonText");
+//       buttonText.innerText = shortenAddress(walletAddress);
+
+//       document.getElementById("connectButton").disabled = true;
+//     } catch (error) {
+//       console.error("Error connecting to wallet:", error);
+//     }
+//   } else {
+//     alert("MetaMask is not installed.");
+//   }
+// }
 
 
 //HANDLE FORM SUBMISSION
@@ -179,28 +214,27 @@ async function getUserStakes(address) {
 
 async function Total(address) {
   try {
-    // Check if web3 is defined
-    if (!web3) {
-      console.error("Web3 is not initialized.");
+    // Check if provider is defined
+    if (!provider) {
+      console.error("Provider is not initialized.");
       return;
     }
 
     // Create a contract instance
-    const contract = new web3.eth.Contract(abi, contractAddress);
+    const contract = new ethers.Contract(contractAddress, abi, provider);
 
     // Call the totalRewards method of your contract
-    const total = await contract.methods.totalRewards().call();
-    const userTotal = await contract.methods
-      .totalEarnedRewardsPerWallet(address)
-      .call();
+    const total = await contract.totalRewards();
+    const userTotal = await contract.totalEarnedRewardsPerWallet(address);
 
     const button = document.getElementById("totalTokenStaked");
-    button.innerText = total;
+    button.innerText = total.toString();
 
     const user = document.getElementById("userTotal");
-    user.innerText = userTotal;
+    user.innerText = userTotal.toString();
+
     // Log out the total rewards
-    console.log("Total Rewards:", total);
+    console.log("Total Rewards:", total.toString());
   } catch (error) {
     console.error("Error fetching total rewards:", error);
   }
@@ -209,25 +243,76 @@ async function Total(address) {
 async function getUserTokenBalance(address) {
   try {
     // Create a contract instance
-    const contract = new web3.eth.Contract(tokenAbi, tokenContract);
+    const contract = new ethers.Contract(tokenContract, tokenAbi, provider);
 
-    // Get the balance in Wei
-    const balanceWei = await contract.methods.balanceOf(address).call();
-
-    // Convert balance from Wei to Ether
-    const balanceEther = web3.utils.fromWei(balanceWei, "ether");
+    // Get the balance in Ether
+    const balance = await contract.balanceOf(address);
 
     // Update the HTML element with the formatted balance
-    const button = document.getElementsByClassName("userBalance");
-    button.item(0).innerHTML = balanceEther;
-    button.item(1).innerHTML = balanceEther;
-    button.item(2).innerHTML = balanceEther;
- // Display the balance with 'ETH' symbol
-    BALANCE = balanceEther;
+    const buttons = document.getElementsByClassName("userBalance");
+    Array.from(buttons).forEach((button) => {
+      button.innerHTML = ethers.utils.formatEther(balance);
+    });
+
+    // Display the balance with 'ETH' symbol
+    BALANCE = ethers.utils.formatEther(balance);
   } catch (error) {
     console.error("Error fetching user token balance:", error);
   }
 }
+
+
+// async function Total(address) {
+//   try {
+//     // Check if web3 is defined
+//     if (!web3) {
+//       console.error("Web3 is not initialized.");
+//       return;
+//     }
+
+//     // Create a contract instance
+//     const contract = new web3.eth.Contract(abi, contractAddress);
+
+//     // Call the totalRewards method of your contract
+//     const total = await contract.methods.totalRewards().call();
+//     const userTotal = await contract.methods
+//       .totalEarnedRewardsPerWallet(address)
+//       .call();
+
+//     const button = document.getElementById("totalTokenStaked");
+//     button.innerText = total;
+
+//     const user = document.getElementById("userTotal");
+//     user.innerText = userTotal;
+//     // Log out the total rewards
+//     console.log("Total Rewards:", total);
+//   } catch (error) {
+//     console.error("Error fetching total rewards:", error);
+//   }
+// }
+
+// async function getUserTokenBalance(address) {
+//   try {
+//     // Create a contract instance
+//     const contract = new web3.eth.Contract(tokenAbi, tokenContract);
+
+//     // Get the balance in Wei
+//     const balanceWei = await contract.methods.balanceOf(address).call();
+
+//     // Convert balance from Wei to Ether
+//     const balanceEther = web3.utils.fromWei(balanceWei, "ether");
+
+//     // Update the HTML element with the formatted balance
+//     const button = document.getElementsByClassName("userBalance");
+//     button.item(0).innerHTML = balanceEther;
+//     button.item(1).innerHTML = balanceEther;
+//     button.item(2).innerHTML = balanceEther;
+//  // Display the balance with 'ETH' symbol
+//     BALANCE = balanceEther;
+//   } catch (error) {
+//     console.error("Error fetching user token balance:", error);
+//   }
+// }
 
 function shortenAddress(address) {
   if (address.length <= 9) {
