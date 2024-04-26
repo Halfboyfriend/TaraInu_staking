@@ -40,15 +40,19 @@ body {
   position: fixed;
   top: 100px;
   right: 20px;
-  background-color: red;
-  color: white;
-  padding:  20px;
-  border-radius: 50px;
+  background-color: #fff;
+  color: #01cc9b;
+  padding:10px 15px;
+  border-radius: 12px;
   display: none;
   z-index: 9999;
   font-size: 15px;
   font-weight: bolder;
   animation: fadeInOut 5s ease;
+}
+
+.hidden {
+  display: none;
 }
 
 @keyframes fadeInOut {

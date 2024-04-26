@@ -225,7 +225,6 @@
     <!-- ALERTS -->
     <div id="notification" class="notification"></div>
     <!-- ALERTS -->
-
     
     <!-- staking_flip_card_sect start -->
     <div class="staking_flip_card_sect">
@@ -320,27 +319,31 @@
                           </ul>
                         </div>
 
-                        <div class="staking_flip_card_back_form">
-                          <form id="myForm">
-                            <span>Stake Amount</span>
-                            <div class="staking_flip_card_back_form_input">
-                              <input type="number" placeholder="0.00 TARAINU" required/>
-                            </div>
-
-                            <div class="staking_flip_card_back_approve_btn">
-                              <button
-                                class="black-shape-big"
-                                type="submit"
-                              
-                              >
-                                Approve
-                                <span class="hover-shape1"></span>
-                                <span class="hover-shape2"></span>
-                                <span class="hover-shape3"></span>
-                              </button>
-                            </div>
-                          </form>
+                       
+                        <form id="form__1">
+                          <div class="staking_flip_card_back_form">
+                           
+                              <span>Stake Amount</span>
+                              <div class="staking_flip_card_back_form_input">
+                                <input type="number" placeholder="0.00 TARAINU" required/>
+                                <!-- <button type="button">Max</button> -->
+                              </div>
+                           
+                          </div>
                         </div>
+                        <div class="staking_flip_card_back_approve_btn">
+                          <button
+                            class="black-shape-big"
+                            onclick="approveSpendingCap()"
+                            type="submit"
+                          >
+                            Approve
+                            <span class="hover-shape1"></span>
+                            <span class="hover-shape2"></span>
+                            <span class="hover-shape3"></span>
+                          </button>
+                        </div>
+                      </form>
                       </div>
                      
                     </div>
@@ -444,20 +447,23 @@
                           </ul>
                         </div>
 
+
+                        <form id="form__2">
                         <div class="staking_flip_card_back_form">
-                          <form>
+                         
                             <span>Stake Amount</span>
                             <div class="staking_flip_card_back_form_input">
-                              <input type="text" placeholder="0.00 TARAINU" />
-                              <button type="button">Max</button>
+                              <input type="number" placeholder="0.00 TARAINU" required/>
+                              <!-- <button type="button">Max</button> -->
                             </div>
-                          </form>
+                         
                         </div>
                       </div>
                       <div class="staking_flip_card_back_approve_btn">
                         <button
                           class="black-shape-big"
-                      
+              
+                          type="submit"
                         >
                           Approve
                           <span class="hover-shape1"></span>
@@ -465,6 +471,7 @@
                           <span class="hover-shape3"></span>
                         </button>
                       </div>
+                    </form>
                     </div>
 
                     <span class="border-shadow shadow-1"></span>
@@ -566,27 +573,30 @@
                           </ul>
                         </div>
 
-                        <div class="staking_flip_card_back_form">
-                          <form>
-                            <span>Stake Amount</span>
-                            <div class="staking_flip_card_back_form_input">
-                              <input type="text" placeholder="0.00 TARAINU" />
-                              <button type="button">Max</button>
-                            </div>
-                          </form>
+                       
+                        <form id="form__3">
+                          <div class="staking_flip_card_back_form">
+                           
+                              <span>Stake Amount</span>
+                              <div class="staking_flip_card_back_form_input">
+                                <input type="number" placeholder="0.00 TARAINU" required/>
+                                <!-- <button type="button">Max</button> -->
+                              </div>
+                           
+                          </div>
                         </div>
-                      </div>
-                      <div class="staking_flip_card_back_approve_btn">
-                        <button
-                          class="black-shape-big"
-                         
-                        >
-                          Approve
-                          <span class="hover-shape1"></span>
-                          <span class="hover-shape2"></span>
-                          <span class="hover-shape3"></span>
-                        </button>
-                      </div>
+                        <div class="staking_flip_card_back_approve_btn">
+                          <button
+                            class="black-shape-big"
+                            type="submit"
+                          >
+                            Approve
+                            <span class="hover-shape1"></span>
+                            <span class="hover-shape2"></span>
+                            <span class="hover-shape3"></span>
+                          </button>
+                        </div>
+                      </form>
                     </div>
 
                     <span class="border-shadow shadow-1"></span>

@@ -1,21 +1,19 @@
 var web3;
+var walletAddress;
 
 function showNotification(message) {
-  const notification = document.getElementById('notification');
+  const notification = document.getElementById("notification");
   notification.innerText = message;
-  notification.style.display = 'block';
-  
+  notification.style.display = "block";
+
   setTimeout(() => {
-    notification.style.display = 'none';
+    notification.style.display = "none";
   }, 6000);
 }
 
-
-
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Your function call here
 });
-
 
 async function Connect() {
   // Check if MetaMask is installed and enabled
@@ -32,7 +30,7 @@ async function Connect() {
       }
 
       const accounts = await web3.eth.getAccounts();
-      const walletAddress = accounts[0];
+       walletAddress = accounts[0];
       await Total(walletAddress);
       await getUserTokenBalance(walletAddress);
 
@@ -51,12 +49,13 @@ async function Connect() {
   }
 }
 
+async function approveSpendingCap() {
+  if(walletAddress){
 
-
-
-
-async function approveSpendingCap(){
-
+  }else{
+    showNotification("Please connect your wallet first");
+  
+  }
 }
 
 //GET USER STAKES
