@@ -1,5 +1,22 @@
 var web3;
 
+function showNotification(message) {
+  const notification = document.getElementById('notification');
+  notification.innerText = message;
+  notification.style.display = 'block';
+  
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 6000);
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Your function call here
+});
+
+
 async function Connect() {
   // Check if MetaMask is installed and enabled
   if (typeof window.ethereum !== "undefined") {
@@ -7,6 +24,12 @@ async function Connect() {
       // Enable the provider (wallet) and get necessary data
       await window.ethereum.request({ method: "eth_requestAccounts" });
       web3 = new Web3(window.ethereum);
+
+      const networkId = await web3.eth.net.getId();
+      if (networkId !== 97) {
+        showNotification("Please switch to bnb testnet.");
+        return;
+      }
 
       const accounts = await web3.eth.getAccounts();
       const walletAddress = accounts[0];
@@ -26,6 +49,14 @@ async function Connect() {
   } else {
     alert("MetaMask is not installed.");
   }
+}
+
+
+
+
+
+async function approveSpendingCap(){
+
 }
 
 //GET USER STAKES

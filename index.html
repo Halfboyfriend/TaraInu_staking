@@ -221,6 +221,12 @@
     </div>
     <!-- Breadcrumbs Section End -->
 
+
+    <!-- ALERTS -->
+    <div id="notification" class="notification"></div>
+    <!-- ALERTS -->
+
+    
     <!-- staking_flip_card_sect start -->
     <div class="staking_flip_card_sect">
       <div class="container">
@@ -315,26 +321,28 @@
                         </div>
 
                         <div class="staking_flip_card_back_form">
-                          <form>
+                          <form id="myForm">
                             <span>Stake Amount</span>
                             <div class="staking_flip_card_back_form_input">
-                              <input type="text" placeholder="0.00 TARAINU" />
-                              <button type="button">Max</button>
+                              <input type="number" placeholder="0.00 TARAINU" required/>
+                            </div>
+
+                            <div class="staking_flip_card_back_approve_btn">
+                              <button
+                                class="black-shape-big"
+                                type="submit"
+                              
+                              >
+                                Approve
+                                <span class="hover-shape1"></span>
+                                <span class="hover-shape2"></span>
+                                <span class="hover-shape3"></span>
+                              </button>
                             </div>
                           </form>
                         </div>
                       </div>
-                      <div class="staking_flip_card_back_approve_btn">
-                        <button
-                          class="black-shape-big"
-                        
-                        >
-                          Approve
-                          <span class="hover-shape1"></span>
-                          <span class="hover-shape2"></span>
-                          <span class="hover-shape3"></span>
-                        </button>
-                      </div>
+                     
                     </div>
 
                     <span class="border-shadow shadow-1"></span>
@@ -941,6 +949,9 @@
       </div>
     </div>
     <!-- Modal Section End-->
+
+
+    
 
     <!-- Meta Mask Connect -->
     <script src="assets/js/web3.min.js"></script>
