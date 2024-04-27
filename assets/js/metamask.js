@@ -6,6 +6,7 @@ var form__3 = document.getElementById("form__3");
 var BALANCE;
 let provider;
 
+const weiToEther = (value) => Number(ethers.utils.formatEther(value)).toFixed(2);
 
 function showNotification(message) {
   const notification = document.getElementById("notification");
@@ -48,6 +49,7 @@ async function Connect() {
        walletAddress = accounts[0];
       await Total(walletAddress);
      await getUserTokenBalance(walletAddress);
+     await userData(walletAddress);
 
       const smallButton = document.getElementById("smallButtonText");
       smallButton.innerText = smShortenAddress(walletAddress);
@@ -151,17 +153,105 @@ form__3.addEventListener("submit", async function (event) {
 });
 
 
+async function userData(address){
+  if(!address){
+    showNotification("Please connect your wallet first");
+    return;
+  }
+  try{
+    const contract = new web3.eth.Contract(abi, contractAddress);
+    
+    // PLAN STAKED
+
+    // Plan Rewards
+    
+
+
+    // Call the totalRewards method of your contract
+    const planA = await contract.methods.earnedToken(1, address).call();
+    const planB = await contract.methods.earnedToken(2, address).call();
+    const planC = await contract.methods.earnedToken(3, address).call();
+
+    const planAButton = document.getElementById("planA");
+    planAButton.innerText = weiToEther(planA);
+    const planBButton = document.getElementById("planB");
+    planBButton.innerText = weiToEther(planB);
+    const planCButton = document.getElementById("planC");
+    planCButton.innerText = weiToEther(planC);
+
+
+
+
+  }catch(e){
+    console.log(e);
+    showNotification("Error fetching user data");
+
+  }
+}
+
+
+async function unStake(stakingId) {
+  if(walletAddress){
+    try{
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      await contract.methods.unstake(stakingId).send({ from: walletAddress });
+      tnxNotification("Unstaked successfully");
+    }catch(err){
+      console.error("Error unstaking:", err);
+      tnxNotification("Error unstaking");
+    }
+  }else{
+    showNotification("Please connect your wallet first");
+  }
+}
+
+async function reStake(stakingId, amount) {
+  if(walletAddress){
+    try{
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      await contract.methods.stake(stakingId, amount).send({ from: walletAddress });
+      tnxNotification("Restaked successfully");
+    }catch(err){
+      console.error("Error restaking:", err);
+      tnxNotification("Error restaking");
+    }
+  }else{
+    showNotification("Please connect your wallet first");
+  }
+}
+
+async function withdraw(stakingId) {
+  if(walletAddress){
+    try{
+      showNotification("Withdrawing, please dont close the window. This may take a while.");
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      await contract.methods.claimEarned(stakingId).send({ from: walletAddress });
+      showNotification("Claimed successfully");
+    }catch(err){
+      console.error("Error claiming:", err);
+      tnxNotification("Error claiming");
+    }
+  }else{
+    showNotification("Please connect your wallet first");
+  }
+}
+
+
 
 async function approveSpendingCap(amount, stakingId) {
   if(walletAddress){
    try{
     const TokenContract = new web3.eth.Contract(tokenAbi, tokenContract);
     const amountInWei = web3.utils.toWei(amount);
+    
+    tnxNotification("Approving spending cap, please dont close the window. This may take a while.");
     const approval = await TokenContract.methods
       .approve(contractAddress, amountInWei)
       .send({ from: walletAddress });
     // approval.wait();
-    showNotification("Spending cap approved successfully");
+
+    showNotification("Transaction has been sent to your wallet. Please confirm the transaction.");
+    
 
     const stakingContract = new web3.eth.Contract(abi, contractAddress);
     // const stakingId = 1;
@@ -185,7 +275,7 @@ async function approveSpendingCap(amount, stakingId) {
 async function getUserStakes(address) {
   const contract = new web3.eth.Contract(abi, contractAddress);
   const stakes = await contract.methods.getUserStakes(address).call();
-  return stakes;
+  return weiToEther(stakes);
 }
 
 async function Total(address) {
@@ -206,10 +296,13 @@ async function Total(address) {
       .call();
 
     const button = document.getElementById("totalTokenStaked");
-    button.innerText = total;
+    button.innerText = weiToEther(total);
 
-    const user = document.getElementById("userTotal");
-    user.innerText = userTotal;
+    // const user = document.getElementById("userTotal");
+    // user.innerText = weiToEther(userTotal);
+
+
+    
     // Log out the total rewards
     console.log("Total Rewards:", total);
   } catch (error) {
