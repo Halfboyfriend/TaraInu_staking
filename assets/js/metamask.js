@@ -14,42 +14,20 @@ function showNotification(message) {
 
   setTimeout(() => {
     notification.style.display = "none";
-  }, 6000);
+  }, 10000);
 }
 
-// async function Connect() {
-//   if (typeof window.ethereum !== "undefined") {
-//     try {
-//       await window.ethereum.request({ method: "eth_requestAccounts" });
-//       provider = new ethers.providers.Web3Provider(window.ethereum);
 
-//       const network = await provider.getNetwork();
-//       if (network.chainId !== 97) {
-//         showNotification("Please switch to bnb testnet.");
-//         return;
-//       }
+function tnxNotification(message) {
+  const notification = document.getElementById("notification");
+  notification.innerText = message;
+  notification.style.display = "block";
 
-//       const signer = provider.getSigner();
-//       const walletAddress = await signer.getAddress();
+  setTimeout(() => {
+    notification.style.display = "none";
+  }, 100000);
+}
 
-//       await Total(walletAddress);
-//       await getUserTokenBalance(walletAddress);
-//       console.log("User wallet" + walletAddress);
-
-//       const smallButton = document.getElementById("smallButtonText");
-//       smallButton.innerText = smShortenAddress(walletAddress);
-
-//       const buttonText = document.getElementById("buttonText");
-//       buttonText.innerText = shortenAddress(walletAddress);
-
-//       // document.getElementById("connectButton").disabled = true;
-//     } catch (error) {
-//       console.error("Error connecting to wallet:", error);
-//     }
-//   } else {
-//     alert("MetaMask is not installed.");
-//   }
-// }
 
 
 
@@ -209,60 +187,6 @@ async function getUserStakes(address) {
   const stakes = await contract.methods.getUserStakes(address).call();
   return stakes;
 }
-
-// async function Total(address) {
-//   try {
-//     // Check if provider is defined
-//     if (!provider) {
-//       console.error("Provider is not initialized.");
-//       return;
-//     }
-
-//     // Create a contract instance
-//     const contract = new ethers.Contract(contractAddress, abi, provider);
-
-//     // Call the totalRewards method of your contract
-//     const total = await contract.totalRewards();
-//     const userTotal = await contract.totalEarnedRewardsPerWallet(address);
-
-//     const button = document.getElementById("totalTokenStaked");
-//     button.innerText = total.toString();
-
-//     const user = document.getElementById("userTotal");
-//     user.innerText = userTotal.toString();
-
-
-
-//     // Log out the total rewards
-//     console.log("Total Rewards:", total.toString());
-//   } catch (error) {
-//     console.error(error);
-//     alert("Could not fetch total rewards");
-//     console.log("Could not fetch total rewards");
-//   }
-// }
-
-// async function getUserTokenBalance(address) {
-//   try {
-//     // Create a contract instance
-//     const contract = new ethers.Contract(tokenContract, tokenAbi, provider);
-
-//     // Get the balance in Ether
-//     const balance = await contract.balanceOf(address);
-
-//     // Update the HTML element with the formatted balance
-//     const buttons = document.getElementsByClassName("userBalance");
-//     Array.from(buttons).forEach((button) => {
-//       button.innerHTML = ethers.utils.formatEther(balance);
-//     });
-
-//     // Display the balance with 'ETH' symbol
-//     BALANCE = ethers.utils.formatEther(balance);
-//   } catch (error) {
-//     console.error("Error fetching user token balance:", error);
-//   }
-// }
-
 
 async function Total(address) {
   try {
