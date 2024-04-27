@@ -377,52 +377,52 @@
 
   // check if wallet is already connected
 
-  window.onload = () =>{
-    checkAccountIsConnected();
-  }
+  // window.onload = () =>{
+  //   checkAccountIsConnected();
+  // }
 
-  const checkAccountIsConnected = async () =>{
-    if(isMetaMaskInstalled()){
-      const activeAccounts = await isAccountConnected();
-      if( activeAccounts.length !== 0 ){
-        $('.connect-btn-wrapper').html(`
-          <button type="button" class="connect-btn readon white-btn hover-shape">
-              <img src="assets/images/icons/connect.png" alt="Icon"> 
-              <span class="btn-text">${activeAccounts[0].substr(0, 10)}</span>
-              <span class="hover-shape1"></span>
-              <span class="hover-shape2"></span>
-              <span class="hover-shape3"></span>
-          </button>
-        `);
-      }
-    }
-  }
+  // const checkAccountIsConnected = async () =>{
+  //   if(isMetaMaskInstalled()){
+  //     const activeAccounts = await isAccountConnected();
+  //     if( activeAccounts.length !== 0 ){
+  //       $('.connect-btn-wrapper').html(`
+  //         <button type="button" class="connect-btn readon white-btn hover-shape">
+  //             <img src="assets/images/icons/connect.png" alt="Icon"> 
+  //             <span class="btn-text">${activeAccounts[0].substr(0, 10)}</span>
+  //             <span class="hover-shape1"></span>
+  //             <span class="hover-shape2"></span>
+  //             <span class="hover-shape3"></span>
+  //         </button>
+  //       `);
+  //     }
+  //   }
+  // }
 
   
   //connect meta
-  $('.connect-meta').on('click', async function(){
-    if(isMetaMaskInstalled()){
-      const activeAccounts = await connectWallet();
-      if( activeAccounts.length !== 0 ){
-        $('#exampleModal').modal('hide');
-        $('body').removeClass('modal-open');
-        $('.modal-backdrop').remove();
-        $('.connect-btn-wrapper').html(`
-          <button type="button" class="connect-btn readon white-btn hover-shape">
-              <img src="assets/images/icons/connect.png" alt="Icon"> 
-              <span class="btn-text">${activeAccounts[0].substr(0, 10)}</span>
-              <span class="hover-shape1"></span>
-              <span class="hover-shape2"></span>
-              <span class="hover-shape3"></span>
-          </button>
-        `);
-      }
-    }else{
-      $('#exampleModal').modal('hide');
-      $('body').removeClass('modal-open');
-      $('.modal-backdrop').remove();
-      $('#download-metamask').modal('show');
-    }
-  });
+  // $('.connect-meta').on('click', async function(){
+  //   if(isMetaMaskInstalled()){
+  //     const activeAccounts = await connectWallet();
+  //     if( activeAccounts.length !== 0 ){
+  //       $('#exampleModal').modal('hide');
+  //       $('body').removeClass('modal-open');
+  //       $('.modal-backdrop').remove();
+  //       $('.connect-btn-wrapper').html(`
+  //         <button type="button" class="connect-btn readon white-btn hover-shape">
+  //             <img src="assets/images/icons/connect.png" alt="Icon"> 
+  //             <span class="btn-text">${activeAccounts[0].substr(0, 10)}</span>
+  //             <span class="hover-shape1"></span>
+  //             <span class="hover-shape2"></span>
+  //             <span class="hover-shape3"></span>
+  //         </button>
+  //       `);
+  //     }
+  //   }else{
+  //     $('#exampleModal').modal('hide');
+  //     $('body').removeClass('modal-open');
+  //     $('.modal-backdrop').remove();
+  //     $('#download-metamask').modal('show');
+  //   }
+  // });
   
 })(jQuery);
