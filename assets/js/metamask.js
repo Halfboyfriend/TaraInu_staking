@@ -6,9 +6,6 @@ var form__3 = document.getElementById("form__3");
 var BALANCE;
 let provider;
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Your function call here
-});
 
 function showNotification(message) {
   const notification = document.getElementById("notification");
