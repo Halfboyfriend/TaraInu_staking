@@ -44,7 +44,7 @@ async function Connect() {
       const buttonText = document.getElementById("buttonText");
       buttonText.innerText = shortenAddress(walletAddress);
 
-      document.getElementById("connectButton").disabled = true;
+      // document.getElementById("connectButton").disabled = true;
     } catch (error) {
       console.error("Error connecting to wallet:", error);
     }
@@ -233,10 +233,14 @@ async function Total(address) {
     const user = document.getElementById("userTotal");
     user.innerText = userTotal.toString();
 
+    
+
     // Log out the total rewards
     console.log("Total Rewards:", total.toString());
   } catch (error) {
-    console.error("Error fetching total rewards:", error);
+    console.error(error);
+    alert("Could not fetch total rewards");
+    console.log("Could not fetch total rewards");
   }
 }
 
