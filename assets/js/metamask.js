@@ -7,6 +7,7 @@ var BALANCE;
 let provider;
 
 const weiToEther = (value) => Number(ethers.utils.formatEther(value)).toFixed(2);
+const etherToWei = (value) => ethers.utils.parseEther(value.toString());
 
 function showNotification(message) {
   const notification = document.getElementById("notification");
@@ -163,6 +164,19 @@ async function userData(address){
     
     // PLAN STAKED
 
+    const stakeA = await contract.methods.canWithdrawAmount(1, address).call();
+    const stakeB = await contract.methods.canWithdrawAmount(2, address).call();
+    const stakeC = await contract.methods.canWithdrawAmount(3, address).call();
+
+    const planAStake = document.getElementById("planAStake");
+    planAStake.innerText = weiToEther(stakeA[0]);
+
+    const planBStake = document.getElementById("planBStake");
+    planBStake.innerText = weiToEther(stakeB[0]);
+
+    const planCStake = document.getElementById("planCStake");
+    planCStake.innerText = weiToEther(stakeC[0]);
+
     // Plan Rewards
     
 
@@ -190,11 +204,45 @@ async function userData(address){
 }
 
 
-async function unStake(stakingId) {
+async function unStakeA(stakingId) {
   if(walletAddress){
     try{
+      const amount = document.getElementById("planAStake").innerText;
+      const weiValue = ethers.utils.parseEther(amount);
       const contract = new web3.eth.Contract(abi, contractAddress);
-      await contract.methods.unstake(stakingId).send({ from: walletAddress });
+      await contract.methods.unstake(stakingId, weiValue).send({ from: walletAddress });
+      tnxNotification("Unstaked successfully");
+    }catch(err){
+      console.error("Error unstaking:", err);
+      tnxNotification("Error unstaking");
+    }
+  }else{
+    showNotification("Please connect your wallet first");
+  }
+}
+
+async function unStakeB(stakingId) {
+  if(walletAddress){
+    try{
+      const amount = document.getElementById("planBStake").value;
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      await contract.methods.unstake(stakingId, amount).send({ from: walletAddress });
+      tnxNotification("Unstaked successfully");
+    }catch(err){
+      console.error("Error unstaking:", err);
+      tnxNotification("Error unstaking");
+    }
+  }else{
+    showNotification("Please connect your wallet first");
+  }
+}
+
+async function unStakeC(stakingId) {
+  if(walletAddress){
+    try{
+      const amount = document.getElementById("planCStake").value;
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      await contract.methods.unstake(stakingId, amount).send({ from: walletAddress });
       tnxNotification("Unstaked successfully");
     }catch(err){
       console.error("Error unstaking:", err);
