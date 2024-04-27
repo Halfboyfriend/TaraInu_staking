@@ -37,6 +37,7 @@ async function Connect() {
 
       await Total(walletAddress);
       await getUserTokenBalance(walletAddress);
+      console.log("User wallet" + walletAddress);
 
       const smallButton = document.getElementById("smallButtonText");
       smallButton.innerText = smShortenAddress(walletAddress);
@@ -233,7 +234,7 @@ async function Total(address) {
     const user = document.getElementById("userTotal");
     user.innerText = userTotal.toString();
 
-    
+
 
     // Log out the total rewards
     console.log("Total Rewards:", total.toString());
