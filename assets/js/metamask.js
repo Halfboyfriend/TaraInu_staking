@@ -47,7 +47,7 @@ async function Connect() {
       }
 
       const accounts = await web3.eth.getAccounts();
-       walletAddress = accounts[0];
+      walletAddress = accounts[0];
       await Total(walletAddress);
      await getUserTokenBalance(walletAddress);
      await userData(walletAddress);
@@ -316,7 +316,7 @@ async function Total(address) {
     const contract = new web3.eth.Contract(abi, contractAddress);
 
     // Call the totalRewards method of your contract
-    const total = await contract.methods.totalRewards().call();
+    const total = await contract.methods.getBalance().call();
     const userTotal = await contract.methods
       .totalEarnedRewardsPerWallet(address)
       .call();
