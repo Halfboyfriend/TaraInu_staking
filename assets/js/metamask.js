@@ -89,6 +89,9 @@ form__1.addEventListener("submit", async function (event) {
 
   try{
     await approveSpendingCap(amount, stakingId);
+    await Total(walletAddress);
+    await getUserTokenBalance(walletAddress);
+    await userData(walletAddress);
 
   }catch(error){
     console.error("Error staking:", error);
@@ -117,6 +120,9 @@ form__2.addEventListener("submit", async function (event) {
 
   try{
     await approveSpendingCap(amount, stakingId);
+    await Total(walletAddress);
+    await getUserTokenBalance(walletAddress);
+    await userData(walletAddress);
 
   }catch(error){
     console.error("Error staking:", error);
@@ -145,6 +151,9 @@ form__3.addEventListener("submit", async function (event) {
 
   try{
     await approveSpendingCap(amount, stakingId);
+    await Total(walletAddress);
+    await getUserTokenBalance(walletAddress);
+    await userData(walletAddress);
 
   }catch(error){
     console.error("Error staking:", error);
@@ -221,6 +230,9 @@ async function unStake(stakingId) {
       const contract = new web3.eth.Contract(abi, contractAddress);
       await contract.methods.unstake(stakingId, weiValue).send({ from: walletAddress });
       tnxNotification("Unstaked successfully");
+      await Total(walletAddress);
+      await getUserTokenBalance(walletAddress);
+      await userData(walletAddress);
     }catch(err){
       console.error("Error unstaking:", err);
       tnxNotification("Error unstaking");
@@ -237,6 +249,9 @@ async function reStake(stakingId) {
       const contract = new web3.eth.Contract(abi, contractAddress);
       await contract.methods.reStake(stakingId).send({ from: walletAddress });
       tnxNotification("Restaked successfully");
+      await Total(walletAddress);
+      await getUserTokenBalance(walletAddress);
+      await userData(walletAddress);
     }catch(err){
       console.error("Error restaking:", err);
       tnxNotification("Error restaking");
@@ -253,6 +268,9 @@ async function withdraw(stakingId) {
       const contract = new web3.eth.Contract(abi, contractAddress);
       await contract.methods.claimEarned(stakingId).send({ from: walletAddress });
       showNotification("Claimed successfully");
+      await Total(walletAddress);
+      await getUserTokenBalance(walletAddress);
+      await userData(walletAddress);
     }catch(err){
       console.error("Error claiming:", err);
       tnxNotification("Error claiming");
