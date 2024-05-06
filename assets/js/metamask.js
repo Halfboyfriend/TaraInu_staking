@@ -317,20 +317,20 @@ async function Total(address) {
 
     // Call the totalRewards method of your contract
     const total = await contract.methods.getBalance().call();
-    const userTotal = await contract.methods
-      .totalEarnedRewardsPerWallet(address)
-      .call();
+    const stake1 = await contract.methods.canWithdrawAmount(1, address).call();
+    const stake2 = await contract.methods.canWithdrawAmount(2, address).call();
+    const stake3 = await contract.methods.canWithdrawAmount(3, address).call();
+
+    let userTotal = stake2[0] + stake3[0] + stake1[0];
+
+    console.log(weiToEther(userTotal))
 
     const button = document.getElementById("totalTokenStaked");
     button.innerText = weiToEther(total);
 
-    // const user = document.getElementById("userTotal");
-    // user.innerText = weiToEther(userTotal);
-
-
+    const user = document.getElementById("userTotal");
+    user.innerText = weiToEther(userTotal);
     
-    // Log out the total rewards
-    console.log("Total Rewards:", total);
   } catch (error) {
     console.error("Error fetching total rewards:", error);
   }
@@ -338,10 +338,8 @@ async function Total(address) {
 
 async function getUserTokenBalance(address) {
   try {
-    // Create a contract instance
     const contract = new web3.eth.Contract(tokenAbi, tokenContract);
 
-    // Get the balance in Wei
     const balanceWei = await contract.methods.balanceOf(address).call();
 
 
