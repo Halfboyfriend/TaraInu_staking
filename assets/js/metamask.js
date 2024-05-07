@@ -248,13 +248,13 @@ async function reStake(stakingId) {
     try{
       const contract = new web3.eth.Contract(abi, contractAddress);
       await contract.methods.reStake(stakingId).send({ from: walletAddress });
-      tnxNotification("Restaked successfully");
+      showNotification("Restaked successfully");
       await Total(walletAddress);
       await getUserTokenBalance(walletAddress);
       await userData(walletAddress);
     }catch(err){
       console.error("Error restaking:", err);
-      tnxNotification("Error restaking");
+      showNotification("Error restaking");
     }
   }else{
     showNotification("Please connect your wallet first");
