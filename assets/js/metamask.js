@@ -78,8 +78,8 @@ form__1.addEventListener("submit", async function (event) {
   const stakingId = 1;
   const amount = document.getElementById("amount__1").value;
 
-  if(amount < 100){
-    showNotification("Amount must be greater than 100");
+  if(amount < 5000000){
+    showNotification("Amount must be greater than 5000000");
     return;
   }
   if(amount > BALANCE){
@@ -109,8 +109,8 @@ form__2.addEventListener("submit", async function (event) {
   const stakingId = 2;
   const amount = document.getElementById("amount__2").value;
 
-  if(amount < 10000){
-    showNotification("Amount must be greater than 100");
+  if(amount < 10000000){
+    showNotification("Amount must be greater than 10000000");
     return;
   }
   if(amount > BALANCE){
@@ -140,8 +140,8 @@ form__3.addEventListener("submit", async function (event) {
   const stakingId = 3;
   const amount = document.getElementById("amount__3").value;
 
-  if(amount < 100){
-    showNotification("Amount must be greater than 100");
+  if(amount < 25000000){
+    showNotification("Amount must be greater than 25000000");
     return;
   }
   if(amount > BALANCE){
