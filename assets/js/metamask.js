@@ -211,9 +211,6 @@ async function userData(address){
     const planCButton = document.getElementById("planC");
     planCButton.innerText = weiToEther(planC);
 
-
-
-
   }catch(e){
     console.log(e);
     showNotification("Error fetching user data");
@@ -360,9 +357,6 @@ async function getUserTokenBalance(address) {
 
     const balanceWei = await contract.methods.balanceOf(address).call();
 
-
-    // Convert balance from Wei to Ether
-    // const balanceEther = web3.utils.fromWei(balanceWei, "ether");
 
     // Update the HTML element with the formatted balance
     const button = document.getElementsByClassName("userBalance");
