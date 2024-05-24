@@ -41,6 +41,7 @@ async function Connect() {
       web3 = new Web3(window.ethereum);
 
       const networkId = await web3.eth.net.getId();
+	  // 841
       if (networkId !== 841) {
         showNotification("Please switch to Taraxa Mainnet.");
         return;
@@ -224,7 +225,7 @@ async function unStake(stakingId) {
 	  try {
 		const amount = document.getElementById("planAStake").innerText;
 		const originalAmount = parseFloat(amount);
-		const fee = originalAmount * 0.01; 
+		const fee = originalAmount * 0.001; 
 		const adjustedAmount = originalAmount - fee;
   
 		const weiValue = ethers.utils.parseEther(adjustedAmount.toString());
@@ -972,6 +973,9 @@ const abi = [
 		"type": "receive"
 	}
 ];
+
+// 
+// 
 
 const tokenContract = "0xf847ecc42565bfd2d6183d5429795549ee89b2ac";
 const tokenAbi = [
