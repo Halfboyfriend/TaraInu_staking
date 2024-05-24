@@ -220,24 +220,30 @@ async function userData(address){
 
 
 async function unStake(stakingId) {
-  if(walletAddress){
-    try{
-      const amount = document.getElementById("planAStake").innerText;
-      const weiValue = ethers.utils.parseEther(amount);
-      const contract = new web3.eth.Contract(abi, contractAddress);
-      await contract.methods.unstake(stakingId, weiValue).send({ from: walletAddress });
-      tnxNotification("Unstaked successfully");
-      await Total(walletAddress);
-      await getUserTokenBalance(walletAddress);
-      await userData(walletAddress);
-    }catch(err){
-      console.error("Error unstaking:", err);
-      tnxNotification("Error unstaking");
-    }
-  }else{
-    showNotification("Please connect your wallet first");
+	if (walletAddress) {
+	  try {
+		const amount = document.getElementById("planAStake").innerText;
+		const originalAmount = parseFloat(amount);
+		const fee = originalAmount * 0.005; 
+		const adjustedAmount = originalAmount - fee;
+  
+		const weiValue = ethers.utils.parseEther(adjustedAmount.toString());
+		const contract = new web3.eth.Contract(abi, contractAddress);
+		await contract.methods.unstake(stakingId, weiValue).send({ from: walletAddress });
+  
+		tnxNotification("Unstaked successfully");
+		await Total(walletAddress);
+		await getUserTokenBalance(walletAddress);
+		await userData(walletAddress);
+	  } catch (err) {
+		console.error("Error unstaking:", err);
+		tnxNotification("Error unstaking");
+	  }
+	} else {
+	  showNotification("Please connect your wallet first");
+	}
   }
-}
+  
 
 
 async function reStake(stakingId) {
