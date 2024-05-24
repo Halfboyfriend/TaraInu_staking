@@ -224,7 +224,7 @@ async function unStake(stakingId) {
 	  try {
 		const amount = document.getElementById("planAStake").innerText;
 		const originalAmount = parseFloat(amount);
-		const fee = originalAmount * 0.005; 
+		const fee = originalAmount * 0.01; 
 		const adjustedAmount = originalAmount - fee;
   
 		const weiValue = ethers.utils.parseEther(adjustedAmount.toString());
