@@ -76,7 +76,7 @@ form__1.addEventListener("submit", async function (event) {
     showNotification("Please connect your wallet first");
     return;
   }
-  const stakingId = 1;
+  const stakingId = 0;
   const amount = document.getElementById("amount__1").value;
 
   if (amount < 5000000) {
@@ -104,7 +104,7 @@ form__2.addEventListener("submit", async function (event) {
     showNotification("Please connect your wallet first");
     return;
   }
-  const stakingId = 2;
+  const stakingId = 1;
   const amount = document.getElementById("amount__2").value;
 
   if (amount < 10000000) {
@@ -132,7 +132,7 @@ form__3.addEventListener("submit", async function (event) {
     showNotification("Please connect your wallet first");
     return;
   }
-  const stakingId = 3;
+  const stakingId = 2;
   const amount = document.getElementById("amount__3").value;
 
   if (amount < 25000000) {
@@ -164,9 +164,9 @@ async function userData(address) {
 
     // PLAN STAKED
 
-    const stakeA = await contract.methods.canWithdrawAmount(1, address).call();
-    const stakeB = await contract.methods.canWithdrawAmount(2, address).call();
-    const stakeC = await contract.methods.canWithdrawAmount(3, address).call();
+    const stakeA = await contract.methods.canWithdrawAmount(0, address).call();
+    const stakeB = await contract.methods.canWithdrawAmount(1, address).call();
+    const stakeC = await contract.methods.canWithdrawAmount(2, address).call();
 
     const planAStake = document.getElementById("planAStake");
     planAStake.innerText = weiToEther(stakeA[0]);
@@ -188,9 +188,9 @@ async function userData(address) {
     // Plan Rewards
 
     // Call the totalRewards method of your contract
-    const planA = await contract.methods.earnedToken(1, address).call();
-    const planB = await contract.methods.earnedToken(2, address).call();
-    const planC = await contract.methods.earnedToken(3, address).call();
+    const planA = await contract.methods.earnedToken(0, address).call();
+    const planB = await contract.methods.earnedToken(1, address).call();
+    const planC = await contract.methods.earnedToken(2, address).call();
 
     const planAButton = document.getElementById("planA");
     planAButton.innerText = weiToEther(planA);
