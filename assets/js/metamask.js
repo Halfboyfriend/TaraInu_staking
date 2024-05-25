@@ -204,67 +204,146 @@ async function userData(address) {
   }
 }
 
-async function unStake(stakingId) {
+// async function unStake(stakingId) {
+//   if (walletAddress) {
+//     try {
+//       const amount = document.getElementById("planAStake").innerText;
+//       console.log("Raw amount:", amount); // Debug log
+
+//       // Parse the amount to a float
+//       const originalAmount = parseFloat(amount);
+//       const fee = originalAmount * 0.01;
+//       const adjustedAmount = originalAmount - fee;
+//       console.log("Adjusted amount:", adjustedAmount); // Debug log
+
+//       // Convert adjusted amount to a string with a fixed number of decimals (up to 18)
+//       const adjustedAmountStr = adjustedAmount.toFixed(18);
+
+//       // Convert to Wei using ethers.js
+//       const weiValue = ethers.utils.parseEther(adjustedAmountStr);
+
+//       const contract = new web3.eth.Contract(abi, contractAddress);
+
+//       // Log method and parameters
+
+// 	  showNotification("Transaction sent to wallet,please confirm...")
+
+//       await contract.methods
+//         .unstake(stakingId, weiValue.toString())
+//         .send({ from: walletAddress, gas: 200000 })
+//         .on("transactionHash", function (hash) {
+//           console.log("Transaction hash:", hash);
+//         })
+//         .on("confirmation", function (confirmationNumber, receipt) {
+//           console.log(
+//             "Confirmation number:",
+//             confirmationNumber,
+//             "Receipt:",
+//             receipt
+//           );
+//         })
+//         .on("receipt", function (receipt) {
+//           console.log("Receipt:", receipt);
+//           tnxNotification("Unstaked successfully");
+//         })
+//         .on("error", function (error, receipt) {
+//           console.error("Transaction error:", error, "Receipt:", receipt);
+//           tnxNotification("Error unstaking");
+//         });
+
+//       await Total(walletAddress);
+//       await getUserTokenBalance(walletAddress);
+//       await userData(walletAddress);
+//     } catch (err) {
+//       console.error("Error unstaking:", err);
+//       if (err.data) {
+//         console.error("Error data:", err.data);
+//       }
+//       tnxNotification("Error unstaking");
+//     }
+//   } else {
+//     showNotification("Please connect your wallet first");
+//   }
+// }
+
+
+async function unStakeA(stakingId) {
+	if (walletAddress) {
+	  try {
+		const amount = document.getElementById("planAStake").innerText;
+		console.log("Raw amount:", amount); // Debug log
+		if(amount <= 0){
+			showNotification("You have no stake in this plan");
+			return;
+		}
+  
+		// Parse the amount to a float
+		const originalAmount = parseFloat(amount);
+		const fee = originalAmount * 0.001;
+		const adjustedAmount = originalAmount - fee;
+  
+		// Convert adjusted amount to a string with a fixed number of decimals (up to 18)
+		const adjustedAmountStr = adjustedAmount.toFixed(18);
+  
+		// Convert to Wei using ethers.js
+		const weiValue = ethers.utils.parseEther(adjustedAmountStr);
+  
+		console.log(weiValue.toString());
+  
+		tnxNotification("Transaction sent to wallet,please confirm...");
+		const contract = new web3.eth.Contract(abi, contractAddress);
+		await contract.methods
+		  .unstake(stakingId, weiValue.toString())
+		  .send({ from: walletAddress });
+  
+		  showNotification("Unstaked successfully");
+		await Total(walletAddress);
+		await getUserTokenBalance(walletAddress);
+		await userData(walletAddress);
+	  } catch (err) {
+		console.error("Error unstaking:", err);
+		tnxNotification("Error unstaking");
+	  }
+	} else {
+	  showNotification("Please connect your wallet first");
+	}
+  }
+  
+async function unStakeB(stakingId) {
   if (walletAddress) {
     try {
-      const amount = document.getElementById("planAStake").innerText;
+      const amount = document.getElementById("planBStake").innerText;
       console.log("Raw amount:", amount); // Debug log
+	  if(amount <= 0){
+		showNotification("You have no stake in this plan");
+		return;
+	}
 
       // Parse the amount to a float
       const originalAmount = parseFloat(amount);
-      const fee = originalAmount * 0.01;
+      const fee = originalAmount * 0.001;
       const adjustedAmount = originalAmount - fee;
-      console.log("Adjusted amount:", adjustedAmount); // Debug log
 
       // Convert adjusted amount to a string with a fixed number of decimals (up to 18)
       const adjustedAmountStr = adjustedAmount.toFixed(18);
-      console.log("Adjusted amount string:", adjustedAmountStr); // Debug log
 
       // Convert to Wei using ethers.js
       const weiValue = ethers.utils.parseEther(adjustedAmountStr);
-      console.log("Wei value:", weiValue.toString()); // Debug log
 
+      console.log(weiValue.toString());
+
+      tnxNotification("Transaction sent to wallet,please confirm...");
       const contract = new web3.eth.Contract(abi, contractAddress);
-
-      // Log method and parameters
-      console.log(
-        "Calling unstake with stakingId:",
-        stakingId,
-        "weiValue:",
-        weiValue.toString()
-      );
-
       await contract.methods
         .unstake(stakingId, weiValue.toString())
-        .send({ from: walletAddress, gas: 200000 })
-        .on("transactionHash", function (hash) {
-          console.log("Transaction hash:", hash);
-        })
-        .on("confirmation", function (confirmationNumber, receipt) {
-          console.log(
-            "Confirmation number:",
-            confirmationNumber,
-            "Receipt:",
-            receipt
-          );
-        })
-        .on("receipt", function (receipt) {
-          console.log("Receipt:", receipt);
-          tnxNotification("Unstaked successfully");
-        })
-        .on("error", function (error, receipt) {
-          console.error("Transaction error:", error, "Receipt:", receipt);
-          tnxNotification("Error unstaking");
-        });
+        .send({ from: walletAddress });
 
+		showNotification("Unstaked successfully");
       await Total(walletAddress);
       await getUserTokenBalance(walletAddress);
       await userData(walletAddress);
     } catch (err) {
       console.error("Error unstaking:", err);
-      if (err.data) {
-        console.error("Error data:", err.data);
-      }
       tnxNotification("Error unstaking");
     }
   } else {
@@ -272,30 +351,48 @@ async function unStake(stakingId) {
   }
 }
 
-// async function unStake(stakingId) {
-// 	if (walletAddress) {
-// 	  try {
-// 		const amount = document.getElementById("planAStake").innerText;
-
-// 		const weiValue = ethers.utils.parseEther("3750");
-
-// 		console.log(weiValue.toString());
-
-// 		const contract = new web3.eth.Contract(abi, contractAddress);
-// 		await contract.methods.unstake(stakingId, weiValue.toString()).send({ from: walletAddress });
-
-// 		tnxNotification("Unstaked successfully");
-// 		await Total(walletAddress);
-// 		await getUserTokenBalance(walletAddress);
-// 		await userData(walletAddress);
-// 	  } catch (err) {
-// 		console.error("Error unstaking:", err);
-// 		tnxNotification("Error unstaking");
-// 	  }
-// 	} else {
-// 	  showNotification("Please connect your wallet first");
-// 	}
-//   }
+async function unStakeC(stakingId) {
+	if (walletAddress) {
+	  try {
+		const amount = document.getElementById("planCStake").innerText;
+		console.log("Raw amount:", amount); // Debug log
+		if(amount <= 0){
+			showNotification("You have no stake in this plan");
+			return;
+		}
+  
+		// Parse the amount to a float
+		const originalAmount = parseFloat(amount);
+		const fee = originalAmount * 0.001;
+		const adjustedAmount = originalAmount - fee;
+  
+		// Convert adjusted amount to a string with a fixed number of decimals (up to 18)
+		const adjustedAmountStr = adjustedAmount.toFixed(18);
+  
+		// Convert to Wei using ethers.js
+		const weiValue = ethers.utils.parseEther(adjustedAmountStr);
+  
+		console.log(weiValue.toString());
+  
+		tnxNotification("Transaction sent to wallet,please confirm...");
+		const contract = new web3.eth.Contract(abi, contractAddress);
+		await contract.methods
+		  .unstake(stakingId, weiValue.toString())
+		  .send({ from: walletAddress });
+  
+		showNotification("Unstaked successfully");
+		await Total(walletAddress);
+		await getUserTokenBalance(walletAddress);
+		await userData(walletAddress);
+	  } catch (err) {
+		console.error("Error unstaking:", err);
+		tnxNotification("Error unstaking");
+	  }
+	} else {
+	  showNotification("Please connect your wallet first");
+	}
+  }
+  
 
 async function reStake(stakingId) {
   if (walletAddress) {
