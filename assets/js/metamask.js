@@ -76,14 +76,17 @@ form__1.addEventListener("submit", async function (event) {
     showNotification("Please connect your wallet first");
     return;
   }
+
+  // alert(BALANCE)
+
   const stakingId = 0;
   const amount = document.getElementById("amount__1").value;
 
   if (amount < 5000000) {
-    showNotification("Amount must be greater than 5000000");
+    showNotification("Amount must be greater than 5,000,000 ");
     return;
   }
-  if (amount > BALANCE) {
+  if  (Number(BALANCE) < Number(amount)) {
     showNotification("Insufficient balance");
     return;
   }
@@ -107,11 +110,12 @@ form__2.addEventListener("submit", async function (event) {
   const stakingId = 1;
   const amount = document.getElementById("amount__2").value;
 
-  if (amount < 10000000) {
-    showNotification("Amount must be greater than 10000000");
+  if (amount < 
+    10000000) {
+    showNotification("Amount must be greater than 10,000,000");
     return;
   }
-  if (amount > BALANCE) {
+  if(Number(BALANCE) < Number(amount)) {
     showNotification("Insufficient balance");
     return;
   }
@@ -136,10 +140,10 @@ form__3.addEventListener("submit", async function (event) {
   const amount = document.getElementById("amount__3").value;
 
   if (amount < 25000000) {
-    showNotification("Amount must be greater than 25000000");
+    showNotification("Amount must be greater than 25,000,000");
     return;
   }
-  if (amount > BALANCE) {
+  if (Number(BALANCE) < Number(amount)) {
     showNotification("Insufficient balance");
     return;
   }
@@ -496,7 +500,6 @@ async function Total(address) {
 
     let userTotal = stake2[0] + stake3[0] + stake1[0];
 
-    console.log(weiToEther(userTotal));
 
     const button = document.getElementById("totalTokenStaked");
     button.innerText = weiToEther(total);
@@ -513,19 +516,25 @@ async function getUserTokenBalance(address) {
     const contract = new web3.eth.Contract(tokenAbi, tokenContract);
 
     const balanceWei = await contract.methods.balanceOf(address).call();
+    const balanceEth = weiToEther(balanceWei);
 
-    // Update the HTML element with the formatted balance
-    const button = document.getElementsByClassName("userBalance");
-    button.item(0).innerHTML = weiToEther(balanceWei);
-
-    button.item(1).innerHTML = weiToEther(balanceWei);
-    button.item(2).innerHTML = weiToEther(balanceWei);
-    // Display the balance with 'ETH' symbol
-    BALANCE = weiToEther(balanceWei);
+    updateUserBalanceDisplay(balanceEth);
+    BALANCE = balanceEth;
   } catch (error) {
     console.error("Error fetching user token balance:", error);
   }
 }
+
+function updateUserBalanceDisplay(balance) {
+  const balanceElements = document.getElementsByClassName("userBalance");
+  
+  Array.from(balanceElements).forEach(element => {
+    if (element) {
+      element.innerHTML = balance;
+    }
+  });
+}
+
 
 function shortenAddress(address) {
   if (address.length <= 9) {
